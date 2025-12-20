@@ -4,21 +4,22 @@ import { connect } from 'cloudflare:sockets';
 // 🟣 1. 用户配置区域 (默认值/硬编码)
 //    优先级说明: 环境变量 > D1数据库 > KV > 下面的硬编码常量
 // =============================================================================
-const UUID = "06b65903-406d-4a41-8463-6fd5c0ee7798"; 
-const WEB_PASSWORD = "你的登录密码"; 
-const SUB_PASSWORD = "你的订阅密码"; 
-const DEFAULT_PROXY_IP = "ProxyIP.US.CMLiussss.net"; 
-const DEFAULT_SUB_DOMAIN = "sub.cmliussss.net"; 
-const TG_GROUP_URL = "https://t.me/zyssadmin"; 
-const TG_CHANNEL_URL = "https://t.me/cloudflareorg"; 
-const PROXY_CHECK_URL = "https://kaic.hidns.co/"; 
-const DEFAULT_CONVERTER = "https://subapi.cmliussss.net"; 
-const CLASH_CONFIG = "https://raw.githubusercontent.com/cmliu/ACL4SSR/main/Clash/config/ACL4SSR_Online_Full_MultiMode.ini";
-const SINGBOX_CONFIG_V12 = "https://raw.githubusercontent.com/sinspired/sub-store-template/main/1.12.x/sing-box.json";
-const SINGBOX_CONFIG_V11 = "https://raw.githubusercontent.com/sinspired/sub-store-template/main/1.11.x/sing-box.json";
-const TG_BOT_TOKEN = ""; 
-const TG_CHAT_ID = ""; 
-const ADMIN_IP = ""; // 预设白名单，支持逗号分隔
+const UUID = "06b65903-406d-4a41-8463-6fd5c0ee7798"; // 修改可用的uuid
+const WEB_PASSWORD = "你的登录密码";  //自己要修改自定义的登录密码
+const SUB_PASSWORD = "你的订阅密码";  // 自己要修改自定义的订阅密码
+const DEFAULT_PROXY_IP = "ProxyIP.US.CMLiussss.net";  //可修改自定义的proxyip
+//⚠️ 注意：下方DEFAULT_SUB_DOMAIN如果有值，只执行这个上游订阅。如果要用下方的ADD本地节点，请务必把这里留空！ 我默认为空
+const DEFAULT_SUB_DOMAIN = "";  //可修改自定义的sub订阅器 为空则直接使用远程ADD
+const TG_GROUP_URL = "https://t.me/zyssadmin";   //可修改自定义内容
+const TG_CHANNEL_URL = "https://t.me/cloudflareorg";  //可此修改自定义内容
+const PROXY_CHECK_URL = "https://kaic.hidns.co/";  //可修改自定义的proxyip检测站
+const DEFAULT_CONVERTER = "https://subapi.cmliussss.net";  //可修改自定义后端api
+const CLASH_CONFIG = "https://raw.githubusercontent.com/cmliu/ACL4SSR/main/Clash/config/ACL4SSR_Online_Full_MultiMode.ini"; //可修改自定义订阅配置转换ini
+const SINGBOX_CONFIG_V12 = "https://raw.githubusercontent.com/sinspired/sub-store-template/main/1.12.x/sing-box.json"; //禁止修改 优先使用1.12 后用1.11
+const SINGBOX_CONFIG_V11 = "https://raw.githubusercontent.com/sinspired/sub-store-template/main/1.11.x/sing-box.json"; //禁止修改
+const TG_BOT_TOKEN = ""; //你的机器人token
+const TG_CHAT_ID = "";  //你的TG ID
+const ADMIN_IP   = "";  //你的白名单IP 保护你不会被自己域名拉黑 (支持多IP，IPV4跟IPV6 使用英文逗号分隔)
 
 // =============================================================================
 // ⚡️ 核心工具函数区
@@ -36,7 +37,6 @@ async function getSafeEnv(env, key, fallback) {
     if (env[key] && env[key].trim() !== "") return env[key];
     
     // 2. 其次 D1 数据库
-    // 🟢 修复：严格判断非空字符串，防止数据库里的空值覆盖了硬编码
     if (env.DB) {
         try {
             const { results } = await env.DB.prepare("SELECT value FROM config WHERE key = ?").bind(key).all();
@@ -47,7 +47,6 @@ async function getSafeEnv(env, key, fallback) {
     }
     
     // 3. 再次 KV
-    // 🟢 修复：同上，排除空字符串
     if (env.LH) {
         try { 
             const kvVal = await env.LH.get(key); 
@@ -844,35 +843,40 @@ export default {
 
           try {
             if (host.toLowerCase() !== _SUB_DOMAIN.toLowerCase()) {
-                const res = await fetch(subUrl, { headers: { 'User-Agent': UA } });
-                if (res.ok) {
-                    let body = await res.text();
-                    if (_PS) {
-                        try {
-                            const decoded = atob(body); 
-                            const modified = decoded.split('\n').map(line => {
-                                line = line.trim();
-                                if (!line || !line.includes('://')) return line;
-                                if (line.includes('#')) return line + encodeURIComponent(` ${_PS}`);
-                                return line + '#' + encodeURIComponent(_PS);
-                            }).join('\n');
-                            body = btoa(modified); 
-                        } catch(e) {
-                             if(body.includes('://')) {
-                                 body = body.split('\n').map(line => {
-                                     line = line.trim();
-                                     if (!line || !line.includes('://')) return line;
-                                     if (line.includes('#')) return line + encodeURIComponent(` ${_PS}`);
-                                     return line + '#' + encodeURIComponent(_PS);
-                                 }).join('\n');
-                             }
+                // ⚠️ 关键修改：仅当 SUB_DOMAIN 不为空时，才执行上游订阅逻辑
+                if (_SUB_DOMAIN && _SUB_DOMAIN.trim() !== "") {
+                    const res = await fetch(subUrl, { headers: { 'User-Agent': UA } });
+                    if (res.ok) {
+                        let body = await res.text();
+                        if (_PS) {
+                            try {
+                                const decoded = atob(body); 
+                                const modified = decoded.split('\n').map(line => {
+                                    line = line.trim();
+                                    if (!line || !line.includes('://')) return line;
+                                    if (line.includes('#')) return line + encodeURIComponent(` ${_PS}`);
+                                    return line + '#' + encodeURIComponent(_PS);
+                                }).join('\n');
+                                body = btoa(modified); 
+                            } catch(e) {
+                                if(body.includes('://')) {
+                                    body = body.split('\n').map(line => {
+                                        line = line.trim();
+                                        if (!line || !line.includes('://')) return line;
+                                        if (line.includes('#')) return line + encodeURIComponent(` ${_PS}`);
+                                        return line + '#' + encodeURIComponent(_PS);
+                                    }).join('\n');
+                                }
+                            }
                         }
+                        return new Response(body, { status: 200, headers: res.headers });
                     }
-                    return new Response(body, { status: 200, headers: res.headers });
                 }
             }
         } catch(e) {}
 
+          // ⚠️ 降级逻辑：只有当 SUB_DOMAIN 为空，或者 fetch 上游失败时，才会走到这里
+          // 此时执行本地 ADD/ADDAPI/ADDCSV 生成
           const allIPs = await getCustomIPs(env);
           const listText = genNodes(host, _UUID, requestProxyIp, allIPs, _PS);
           return new Response(btoa(unescape(encodeURIComponent(listText))), { status: 200, headers: { 'Content-Type': 'text/plain; charset=utf-8' } });
@@ -888,6 +892,32 @@ export default {
           const pathParam = url.searchParams.get('path');
           if (pathParam && pathParam.includes('/proxyip=')) proxyIp = pathParam.split('/proxyip=')[1];
           
+          // 这里逻辑同上：先判断上游，再判断本地
+          if (_SUB_DOMAIN && _SUB_DOMAIN.trim() !== "") {
+              const subUrl = `https://${_SUB_DOMAIN}/sub?uuid=${_UUID}&encryption=none&security=tls&sni=${host}&alpn=h3&fp=random&allowInsecure=1&type=ws&host=${host}&path=${encodeURIComponent(pathParam)}`;
+              try {
+                  const res = await fetch(subUrl, { headers: { 'User-Agent': UA } });
+                  if (res.ok) {
+                      let body = await res.text();
+                      // (处理PS备注...)
+                      if (_PS) {
+                          try {
+                              const decoded = atob(body); 
+                              const modified = decoded.split('\n').map(line => {
+                                  line = line.trim();
+                                  if (!line || !line.includes('://')) return line;
+                                  if (line.includes('#')) return line + encodeURIComponent(` ${_PS}`);
+                                  return line + '#' + encodeURIComponent(_PS);
+                              }).join('\n');
+                              body = btoa(modified); 
+                          } catch(e) {}
+                      }
+                      return new Response(body, { status: 200, headers: res.headers });
+                  }
+              } catch(e) {}
+          }
+
+          // 降级：仅当没有上游时生成本地节点
           const allIPs = await getCustomIPs(env);
           const listText = genNodes(host, _UUID, proxyIp, allIPs, _PS);
           return new Response(btoa(unescape(encodeURIComponent(listText))), { status: 200, headers: { 'Content-Type': 'text/plain; charset=utf-8' } });
@@ -959,3 +989,40 @@ export default {
     }
   }
 };
+
+async function getCustomIPs(env) {
+    let ips = await getSafeEnv(env, 'ADD', "");
+    const addApi = await getSafeEnv(env, 'ADDAPI', "");
+    const addCsv = await getSafeEnv(env, 'ADDCSV', "");
+    
+    // 适配多行链接
+    if (addApi) {
+        const urls = addApi.split('\n').filter(u => u.trim() !== "");
+        for (const url of urls) {
+            try { const res = await fetch(url.trim(), { headers: { 'User-Agent': 'Mozilla/5.0' } }); if (res.ok) { const text = await res.text(); ips += "\n" + text; } } catch (e) {}
+        }
+    }
+    
+    // 适配多行链接
+    if (addCsv) {
+        const urls = addCsv.split('\n').filter(u => u.trim() !== "");
+        for (const url of urls) {
+            try { const res = await fetch(url.trim(), { headers: { 'User-Agent': 'Mozilla/5.0' } }); if (res.ok) { const text = await res.text(); const lines = text.split('\n'); for (let line of lines) { const parts = line.split(','); if (parts.length >= 2) ips += `\n${parts[0].trim()}:443#${parts[1].trim()}`; } } } catch (e) {}
+        }
+    }
+    return ips;
+}
+
+function genNodes(h, u, p, ipsText, ps = "") {
+    let l = ipsText.split('\n').filter(line => line.trim() !== "");
+    const P = p ? `/proxyip=${p.trim()}` : "/";
+    const E = encodeURIComponent(P);
+    return l.map(L => {
+        const [a, n] = L.split('#'); if (!a) return "";
+        const I = a.trim(); 
+        let N = n ? n.trim() : 'Worker-Node';
+        if (ps) N = `${N} ${ps}`;
+        let i = I, pt = "443"; if (I.includes(':') && !I.includes('[')) { const s = I.split(':'); i = s[0]; pt = s[1]; }
+        return `${PT_TYPE}://${u}@${i}:${pt}?encryption=none&security=tls&sni=${h}&alpn=h3&fp=random&allowInsecure=1&type=ws&host=${h}&path=${E}#${encodeURIComponent(N)}`
+    }).join('\n');
+}

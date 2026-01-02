@@ -10,8 +10,8 @@ const SUB_PASSWORD = "dkcf";  // 自己要修改自定义的订阅密码
 const DEFAULT_PROXY_IP = "ProxyIP.US.CMLiussss.net";  //可修改自定义的proxyip
 //⚠️ 注意：下方DEFAULT_SUB_DOMAIN如果有值，只执行这个上游订阅。如果要用下方的ADD本地节点，请务必把这里留空！ 
 const DEFAULT_SUB_DOMAIN = "sub.cmliussss.net";  //可修改自定义的sub订阅器 为空则直接使用远程ADD
-const TG_GROUP_URL = "https://t.me/zyssadmin";   //可修改自定义内容
-const TG_CHANNEL_URL = "https://t.me/cloudflareorg";  //可此修改自定义内容
+const TG_GROUP_URL = "大口吃饭";   //可修改自定义内容
+const TG_CHANNEL_URL = "大口吃饭";  //可此修改自定义内容
 const PROXY_CHECK_URL = "https://kaic.hidns.co/";  //可修改自定义的proxyip检测站
 const DEFAULT_CONVERTER = "https://subapi.cmliussss.net";  //可修改自定义后端api
 const CLASH_CONFIG = "https://raw.githubusercontent.com/cmliu/ACL4SSR/main/Clash/config/ACL4SSR_Online_Full_MultiMode.ini"; //可修改自定义订阅配置转换ini

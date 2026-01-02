@@ -4,9 +4,9 @@ import { connect } from 'cloudflare:sockets';
 // 🟣 1. 用户配置区域 (默认值/硬编码)
 //    优先级说明: 环境变量 > D1数据库 > KV > 下面的硬编码常量
 // =============================================================================
-const UUID = "06b65903-406d-4a41-8463-6fd5c0ee7798"; // 修改可用的uuid
-const WEB_PASSWORD = "你的登录密码";  //自己要修改自定义的登录密码
-const SUB_PASSWORD = "你的订阅密码";  // 自己要修改自定义的订阅密码
+const UUID = "78dd747b-3484-4e88-b05c-4bfe5a0593e0"; // 修改可用的uuid
+const WEB_PASSWORD = "dkcf";  //自己要修改自定义的登录密码
+const SUB_PASSWORD = "dkcf";  // 自己要修改自定义的订阅密码
 const DEFAULT_PROXY_IP = "ProxyIP.US.CMLiussss.net";  //可修改自定义的proxyip
 //⚠️ 注意：下方DEFAULT_SUB_DOMAIN如果有值，只执行这个上游订阅。如果要用下方的ADD本地节点，请务必把这里留空！ 
 const DEFAULT_SUB_DOMAIN = "sub.cmliussss.net";  //可修改自定义的sub订阅器 为空则直接使用远程ADD

@@ -15,7 +15,7 @@ const DEFAULT_CONVERTER = atob("aHR0cHM6Ly9zdWJhcGkuY21saXVzc3NzLm5ldA=="); // �
 // --- 界面与链接配置 ---
 const LOGIN_PAGE_TITLE = "Worker Login"; // 修改你的登录页标题
 const DASHBOARD_TITLE = "烈火控制台 · Glass LH"; //修改你的管理后台标题
-const TG_GROUP_URL = "https://t.me/zyssadmin";       // 登录页“交流群”链接
+const TG_GROUP_URL = "https://t.me/dkcfwl";       // 登录页“交流群”链接
 const SITE_URL = "https://blog.2026565.xyz/";        // 登录页“天诚网站”链接
 const GITHUB_URL = "https://github.com/xtgm/stallTCP1.32V2"; // 登录页“项目直达”链接
 const PROXY_CHECK_URL = "https://kaic.hidns.co/";    // 后台 ProxyIP 检测跳转地址

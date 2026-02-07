@@ -7,7 +7,7 @@ const UUID = "06b65903-406d-4a41-8463-6fd5c0ee7798"; // 修改可用的uuid
 const WEB_PASSWORD = " dkcf";  //自己要修改自定义的登录密码
 const SUB_PASSWORD = " dkcf";  // 自己要修改自定义的订阅密码
 const DEFAULT_PROXY_IP = "ProxyIP.US.CMLiussss.net";  //可修改自定义的proxyip
-const DEFAULT_SUB_DOMAIN = "https://dkcfdy18.pages.dev/sub?token=beefa3a472f8e2dffb0adc1ff754c80f";  //可修改自定义的sub订阅器
+const DEFAULT_SUB_DOMAIN =;  //可修改自定义的sub订阅器
 const TG_GROUP_URL = "https://t.me/zyssadmin";   //可修改自定义内容
 const TG_CHANNEL_URL = "https://t.me/cloudflareorg";  //可此修改自定义内容
 const PROXY_CHECK_URL = "https://kaic.hidns.co/";  //可修改自定义的proxyip检测站
@@ -19,11 +19,6 @@ const TG_BOT_TOKEN = ""; //你的机器人token
 const TG_CHAT_ID = "";  //你的TG ID
 const ADMIN_IP   = "";  //你的白名单IP 保护你不会被自己域名拉黑 (支持多IP，IPV4跟IPV6 使用英文逗号分隔)
 
-// =============================================================================
-// 🟢 特征码深度混淆 (全文无敏感词)
-const P_V = 'v'+'l'+'e'+'s'+'s';
-const P_S = 's'+'o'+'c'+'k'+'s';
-const P_S5 = P_S + '5';
 // =============================================================================
 // ⚡️ 核心常量
 // =============================================================================

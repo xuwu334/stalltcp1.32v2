@@ -7,34 +7,20 @@ import { connect } from 'cloudflare:sockets';
 const UUID = "78dd747b-3484-4e88-b05c-4bfe5a0593e0"; // 修改可用的uuid
 const WEB_PASSWORD = "dkcf";  //修改你的登录密码
 const SUB_PASSWORD = "dkcf";  //修改你的订阅密码
-const DEFAULT_PROXY_IP = atob("UHJveHlJUC5VUy5DTUxpdXNzc3MubmV0"); // 支持多ProxyIP，使用逗号分隔
-const DEFAULT_SUB_DOMAIN = atob("c3ViLmNtbGl1c3Nzcy5uZXQ=");      // 支持多订阅域名，使用逗号分隔
-const DEFAULT_CONVERTER = atob("aHR0cHM6Ly9zdWJhcGkuY21saXVzc3NzLm5ldA=="); // 支持多转换器，使用逗号分隔
-
-// --- 界面与链接配置 ---
-const LOGIN_PAGE_TITLE = " 大口吃饭烈火控制台"; // 修改你的登录页标题
-const DASHBOARD_TITLE = "大口吃饭 · Glass LH"; //修改你的管理后台标题
-const TG_GROUP_URL = "https://v.douyin.com/aJm4rARwFic/ 1@2.com :5pm";       // 登录页“交流群”链接
-const SITE_URL = "https://v.douyin.com/aJm4rARwFic/";        // 登录页“天诚网站”链接
-const GITHUB_URL = "https://github.com/xtgm/stallTCP1.32V2"; // 登录页“项目直达”链接
-const PROXY_CHECK_URL = "https://kaic.hidns.co/";    // 后台 ProxyIP 检测跳转地址
-
-// --- 订阅转换配置文件 (支持环境变量覆盖) ---
-const CLASH_CONFIG = atob("aHR0cHM6Ly9yYXcuZ2l0aHVidXNlcmNvbnRlbnQuY29tL2NtbGl1L0FDTDRTU1IvbWFpbi9DbGFzaC9jb25maWcvQUNMNFNTUl9PbmxpbmVfRnVsbF9NdWx0aU1vZGUuaW5p"); //修改转换订阅配置文件ini
-const SINGBOX_CONFIG_V12 = atob("aHR0cHM6Ly9yYXcuZ2l0aHVidXNlcmNvbnRlbnQuY29tL3NpbnNwaXJlZC9zdWItc3RvcmUtdGVtcGxhdGUvbWFpbi8xLjEyLngvc2luZy1ib3guanNvbg=="); //修改singbox的json配置，默认使用1.11，如果无法使用才会切换1.12
-const SINGBOX_CONFIG_V11 = atob("aHR0cHM6Ly9yYXcuZ2l0aHVidXNlcmNvbnRlbnQuY29tL3NpbnNwaXJlZC9zdWItc3RvcmUtdGVtcGxhdGUvbWFpbi8xLjExLngvc2luZy1ib3guanNvbg=="); //修改singbox的json配置，默认使用这个，如果无法使用才会切换1.12
-
-// --- 通知与高级参数 ---
-const TG_BOT_TOKEN = ""; //在此telegram bot的token令牌
-const TG_CHAT_ID = ""; //在此修改添加你的telegram 用户id
-const ADMIN_IP = ""; //在此修改添加你的白名单IP
-const DLS = "5000"; // ADDCSV 专用：速度下限筛选阈值 (单位 KB/s)
-// =============================================================================
-// 🟢 特征码深度混淆 (全文无敏感词)
-const P_V = 'v'+'l'+'e'+'s'+'s';
-const P_S = 's'+'o'+'c'+'k'+'s';
-const P_S5 = P_S + '5';
-
+const DEFAULT_PROXY_IP = atconst WEB_PASSWORD = " dkcf";  //自己要修改自定义的登录密码
+const SUB_PASSWORD = " dkcf";  // 自己要修改自定义的订阅密码
+const DEFAULT_PROXY_IP = "ProxyIP.US.CMLiussss.net";  //可修改自定义的proxyip
+const DEFAULT_SUB_DOMAIN = ;  //可修改自定义的sub订阅器
+const TG_GROUP_URL = "https://t.me/zyssadmin";   //可修改自定义内容
+const TG_CHANNEL_URL = "https://t.me/cloudflareorg";  //可此修改自定义内容
+const PROXY_CHECK_URL = "https://kaic.hidns.co/";  //可修改自定义的proxyip检测站
+const DEFAULT_CONVERTER = "https://subapi.cmliussss.net";  //可修改自定义后端api
+const CLASH_CONFIG = "https://raw.githubusercontent.com/cmliu/ACL4SSR/main/Clash/config/ACL4SSR_Online_Full_MultiMode.ini"; //可修改自定义订阅配置转换ini
+const SINGBOX_CONFIG_V12 = "https://raw.githubusercontent.com/sinspired/sub-store-template/main/1.12.x/sing-box.json"; //禁止修改 优先使用1.12 后用1.11
+const SINGBOX_CONFIG_V11 = "https://raw.githubusercontent.com/sinspired/sub-store-template/main/1.11.x/sing-box.json"; //禁止修改
+const TG_BOT_TOKEN = ""; //你的机器人token
+const TG_CHAT_ID = "";  //你的TG ID
+const ADMIN_IP   = "";  //你的白名单IP 保护你不会被自己域名拉黑 (支持多IP，IPV4跟IPV6 使用英文逗号分隔
 // StallTCP 核心参数
 const MAX_PENDING = 2 * 1024 * 1024, KEEPALIVE = 15000, STALL_TO = 8000, MAX_STALL = 12, MAX_RECONN = 24;
 

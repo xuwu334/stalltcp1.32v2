@@ -14,7 +14,7 @@ const DEFAULT_CONVERTER = atob("aHR0cHM6Ly9zdWJhcGkuY21saXVzc3NzLm5ldA=="); // �
 
 // --- 界面与链接配置 ---
 const LOGIN_PAGE_TITLE = " 大口吃饭烈火控制台"; // 修改你的登录页标题
-const DASHBOARD_TITLE = "大口吃饭 · Glass LH"; //修改你的管理后台标题
+const DASHBOARD_TITLE = "大口吃饭"; //修改你的管理后台标题
 const TG_GROUP_URL = "https://t.me/dkcfwl";       // 登录页“交流群”链接
 
 // 👇 加上这一行，解决 ReferenceError 报错
